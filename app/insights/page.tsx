@@ -96,7 +96,7 @@ export default function InsightsPage() {
       {/* Cloud Cost Card */}
       <Card className="p-6 lg:p-8 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
         {/* Cloud Cost Header */}
-        <div className="mb-4">
+        <div className="mb-2">
           <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
         </div>
 

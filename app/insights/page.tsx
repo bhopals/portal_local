@@ -12,14 +12,14 @@ export default function InsightsPage() {
   const [timePeriod, setTimePeriod] = useState("6months");
 
   return (
-    <div className="pt-16 min-h-screen bg-sidebar">
-      <div className="p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
 
       {/* Cost Overview Section */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-3xl font-bold">Cost Overview</h2>
-          <p className="text-gray-500 mt-1">
+          <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Cost Overview</h2>
+          <p className="text-sm text-slate-500 mt-1">
             Billing data as of {new Date().toISOString().split('T')[0]}
           </p>
         </div>
@@ -47,10 +47,10 @@ export default function InsightsPage() {
         </TabsList>
         
         <TabsContent value="total" className="mt-6">
-          <Card className="p-6">
+          <Card className="p-8 lg:p-10 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
             {/* Chart Header */}
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold">Cloud Cost</h3>
+              <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
               
               {/* Time Period Filter */}
               <Select value={timePeriod} onValueChange={setTimePeriod}>
@@ -72,21 +72,21 @@ export default function InsightsPage() {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                  <span className="text-sm text-gray-600">COST TREND</span>
+                  <span className="text-sm text-slate-600 font-medium">COST TREND</span>
                 </div>
-                <div className="text-3xl font-bold">{mockCostData.costTrend.percentage}%</div>
+                <div className="text-3xl font-bold text-slate-900">{mockCostData.costTrend.percentage}%</div>
               </div>
-              
+
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-3 h-3 rounded-full bg-pink-500"></div>
-                  <span className="text-sm text-gray-600">DAILY ACTIVE USERS TREND</span>
+                  <span className="text-sm text-slate-600 font-medium">DAILY ACTIVE USERS TREND</span>
                 </div>
-                <div className="text-3xl font-bold">{mockCostData.dailyActiveUsersTrend.percentage}%</div>
+                <div className="text-3xl font-bold text-slate-900">{mockCostData.dailyActiveUsersTrend.percentage}%</div>
               </div>
-              
+
               <div>
-                <div className="text-sm text-gray-600 mb-1">YOUR EXCESS</div>
+                <div className="text-sm text-slate-600 font-medium mb-1">YOUR EXCESS</div>
                 <div className="text-xl font-semibold text-red-600">
                   {mockCostData.excess.percentage}% or ~{mockCostData.excess.engineers} engineers
                 </div>
@@ -99,8 +99,8 @@ export default function InsightsPage() {
         </TabsContent>
         
         <TabsContent value="breakdown">
-          <Card className="p-6">
-            <p className="text-gray-500">Breakdown by resource view - Coming soon</p>
+          <Card className="p-8 lg:p-10 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
+            <p className="text-slate-500">Breakdown by resource view - Coming soon</p>
           </Card>
         </TabsContent>
       </Tabs>

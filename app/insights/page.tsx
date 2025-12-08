@@ -20,7 +20,22 @@ export default function InsightsPage() {
 
   // Get zone-specific data
   const currentMetrics = mockCostData.zoneMetrics[selectedZone as keyof typeof mockCostData.zoneMetrics];
-  const currentChartData = mockCostData.zoneChartData[selectedZone as keyof typeof mockCostData.zoneChartData];
+  const allZoneData = mockCostData.zoneChartData[selectedZone as keyof typeof mockCostData.zoneChartData];
+
+  // Filter data based on time period
+  const getFilteredData = () => {
+    const dataPoints = {
+      'week': 2,      // Last 1 week
+      'month': 4,     // Last 1 month
+      '3months': 13,  // Last 3 months
+      '6months': 27   // Last 6 months (all data)
+    };
+
+    const points = dataPoints[timePeriod as keyof typeof dataPoints] || 27;
+    return allZoneData.slice(-points);
+  };
+
+  const currentChartData = getFilteredData();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">

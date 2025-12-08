@@ -12,8 +12,9 @@ export default function InsightsPage() {
   const [timePeriod, setTimePeriod] = useState("6months");
 
   return (
-    <div className="p-6">
-      
+    <div className="pt-16 min-h-screen bg-sidebar">
+      <div className="p-6">
+
       {/* Cost Overview Section */}
       <div className="flex justify-between items-center mb-6">
         <div>
@@ -103,6 +104,7 @@ export default function InsightsPage() {
           </Card>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }

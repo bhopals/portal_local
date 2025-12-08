@@ -93,48 +93,51 @@ export default function InsightsPage() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <Tabs defaultValue="total" className="mb-6">
-        <TabsList>
-          <TabsTrigger value="total">TOTAL COST</TabsTrigger>
-          <TabsTrigger value="breakdown">BREAKDOWN BY RESOURCE</TabsTrigger>
-        </TabsList>
+      {/* Cloud Cost Card */}
+      <Card className="p-6 lg:p-8 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
+        {/* Tabs */}
+        <Tabs defaultValue="total">
+          <div className="flex justify-between items-center mb-4">
+            <TabsList>
+              <TabsTrigger value="total">TOTAL COST</TabsTrigger>
+              <TabsTrigger value="breakdown">BREAKDOWN BY RESOURCE</TabsTrigger>
+            </TabsList>
 
-        <TabsContent value="total" className="mt-3">
-          <Card className="p-6 lg:p-8 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
-            {/* Chart Header */}
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
-              
-              {/* Time Period Filter */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-[200px] h-11 justify-between px-4 bg-white border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-blue-500 transition-all duration-200"
+            {/* Time Period Filter */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-[200px] h-11 justify-between px-4 bg-white border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-blue-500 transition-all duration-200"
+                >
+                  <span className="text-slate-900">
+                    {mockCostData.timePeriods.find(p => p.id === timePeriod)?.label || "Select Period"}
+                  </span>
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[200px] bg-white border-slate-200 shadow-lg rounded-lg">
+                {mockCostData.timePeriods.map((period) => (
+                  <DropdownMenuItem
+                    key={period.id}
+                    onClick={() => setTimePeriod(period.id)}
+                    className={`cursor-pointer px-4 py-2.5 text-sm transition-colors ${
+                      timePeriod === period.id
+                        ? 'bg-gradient-to-r from-blue-50 to-blue-100/50 text-blue-700 font-semibold'
+                        : 'text-slate-700 hover:bg-slate-50'
+                    }`}
                   >
-                    <span className="text-slate-900">
-                      {mockCostData.timePeriods.find(p => p.id === timePeriod)?.label || "Select Period"}
-                    </span>
-                    <ChevronDown className="w-4 h-4 text-slate-400" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[200px] bg-white border-slate-200 shadow-lg rounded-lg">
-                  {mockCostData.timePeriods.map((period) => (
-                    <DropdownMenuItem
-                      key={period.id}
-                      onClick={() => setTimePeriod(period.id)}
-                      className={`cursor-pointer px-4 py-2.5 text-sm transition-colors ${
-                        timePeriod === period.id
-                          ? 'bg-gradient-to-r from-blue-50 to-blue-100/50 text-blue-700 font-semibold'
-                          : 'text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      {period.label}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    {period.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          <TabsContent value="total" className="mt-0">
+            {/* Cloud Cost Header */}
+            <div className="mb-3">
+              <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
             </div>
 
             {/* Metrics */}
@@ -165,15 +168,16 @@ export default function InsightsPage() {
 
             {/* Chart */}
             <CloudCostChart data={currentChartData} />
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="breakdown" className="mt-3">
-          <Card className="p-6 lg:p-8 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
+          </TabsContent>
+
+          <TabsContent value="breakdown" className="mt-0">
+            <div className="mb-3">
+              <h3 className="text-2xl font-bold text-slate-900">Resource Breakdown</h3>
+            </div>
             <p className="text-slate-500">Breakdown by resource view - Coming soon</p>
-          </Card>
-        </TabsContent>
-      </Tabs>
+          </TabsContent>
+        </Tabs>
+      </Card>
       </div>
     </div>
   );

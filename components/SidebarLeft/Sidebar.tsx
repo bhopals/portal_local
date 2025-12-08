@@ -11,8 +11,7 @@ import Cloud from "@/public/sidebar/cloud.svg";
 import LandingZone from "@/public/sidebar/landingZone.svg";
 import Group from "@/public/sidebar/group.svg";
 import Guardian from "@/public/sidebar/guardian.svg";
-import Create from "@/public/sidebar/create.svg";
-import Deployments from "@/public/sidebar/deployment-1.svg";
+import Deployments from "@/public/sidebar/deployments.svg";
 import Insights from "@/public/sidebar/insights.svg";
 import Support from "@/public/sidebar/support.svg";
 import Settings from "@/public/sidebar/settings.svg";
@@ -66,8 +65,22 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
           )}
           <SidebarItem icon={Home} label="Home" link="/" isCollapsed={isCollapsed} />
           <SidebarItem icon={Cloud} label="Cloud Onboarding" link="/cloud-onboarding" isCollapsed={isCollapsed} />
-          <SidebarItem icon={LandingZone} label="My Landing Zone" link="/landing-zone" isCollapsed={isCollapsed} />
-          <SidebarItem icon={Group} label="My Group" link="/group" isCollapsed={isCollapsed} />
+          <SidebarItem 
+            icon={LandingZone} 
+            label="My Landing Zone" 
+            link="/landing-zone" 
+            isCollapsed={isCollapsed}
+            submenu={[
+              { label: "Create", link: "/landing-zone/create" },
+              { label: "Manage", link: "/landing-zone/manage" },
+            ]}
+          />
+          <SidebarItem 
+            icon={Group} 
+            label="My Group" 
+            link="/group" 
+            isCollapsed={isCollapsed}
+          />
         </div>
 
         <div className={`my-4 mx-3 border-t`} />
@@ -77,7 +90,6 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
             <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1">Management</p>
           )}
           <SidebarItem icon={Guardian} label="Guardian" link="/guardian" isCollapsed={isCollapsed} badge="New" />
-          <SidebarItem icon={Create} label="Create" link="/create" isCollapsed={isCollapsed} />
           <SidebarItem icon={Deployments} label="Deployments" link="/deployments" isCollapsed={isCollapsed} badge="3" />
           <SidebarItem icon={Insights} label="Cost Insights" link="/insights" isCollapsed={isCollapsed} />
         </div>
@@ -98,6 +110,3 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
     </aside>
   );
 }
-
-
-

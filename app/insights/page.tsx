@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CloudCostChart } from "@/components/insights/CloudCostChart";
 import { mockCostData } from "@/lib/mockCostData";
@@ -36,18 +42,34 @@ export default function InsightsPage() {
           </div>
 
           {/* Landing Zone Selector */}
-          <Select value={selectedZone} onValueChange={setSelectedZone}>
-            <SelectTrigger className="w-[250px]">
-              <SelectValue placeholder="Select Landing Zone" />
-            </SelectTrigger>
-            <SelectContent>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-[250px] h-11 justify-between px-4 bg-white border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-blue-500 transition-all duration-200"
+              >
+                <span className="text-slate-900">
+                  {mockCostData.landingZones.find(z => z.id === selectedZone)?.name || "Select Landing Zone"}
+                </span>
+                <ChevronDown className="w-4 h-4 text-slate-400" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[250px] bg-white border-slate-200 shadow-lg rounded-lg">
               {mockCostData.landingZones.map((zone) => (
-                <SelectItem key={zone.id} value={zone.id}>
+                <DropdownMenuItem
+                  key={zone.id}
+                  onClick={() => setSelectedZone(zone.id)}
+                  className={`cursor-pointer px-4 py-2.5 text-sm transition-colors ${
+                    selectedZone === zone.id
+                      ? 'bg-gradient-to-r from-blue-50 to-blue-100/50 text-blue-700 font-semibold'
+                      : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
                   {zone.name}
-                </SelectItem>
+                </DropdownMenuItem>
               ))}
-            </SelectContent>
-          </Select>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -61,26 +83,42 @@ export default function InsightsPage() {
         <TabsContent value="total" className="mt-6">
           <Card className="p-8 lg:p-10 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
             {/* Chart Header */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
               
               {/* Time Period Filter */}
-              <Select value={timePeriod} onValueChange={setTimePeriod}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-[200px] h-11 justify-between px-4 bg-white border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-blue-500 transition-all duration-200"
+                  >
+                    <span className="text-slate-900">
+                      {mockCostData.timePeriods.find(p => p.id === timePeriod)?.label || "Select Period"}
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-slate-400" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[200px] bg-white border-slate-200 shadow-lg rounded-lg">
                   {mockCostData.timePeriods.map((period) => (
-                    <SelectItem key={period.id} value={period.id}>
+                    <DropdownMenuItem
+                      key={period.id}
+                      onClick={() => setTimePeriod(period.id)}
+                      className={`cursor-pointer px-4 py-2.5 text-sm transition-colors ${
+                        timePeriod === period.id
+                          ? 'bg-gradient-to-r from-blue-50 to-blue-100/50 text-blue-700 font-semibold'
+                          : 'text-slate-700 hover:bg-slate-50'
+                      }`}
+                    >
                       {period.label}
-                    </SelectItem>
+                    </DropdownMenuItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             {/* Metrics */}
-            <div className="flex gap-8 mb-6">
+            <div className="flex gap-8 mb-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-3 h-3 rounded-full bg-blue-500"></div>

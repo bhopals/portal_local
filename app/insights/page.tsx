@@ -12,6 +12,10 @@ export default function InsightsPage() {
   const [selectedZone, setSelectedZone] = useState("all");
   const [timePeriod, setTimePeriod] = useState("6months");
 
+  // Get zone-specific data
+  const currentMetrics = mockCostData.zoneMetrics[selectedZone as keyof typeof mockCostData.zoneMetrics];
+  const currentChartData = mockCostData.zoneChartData[selectedZone as keyof typeof mockCostData.zoneChartData];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -82,7 +86,7 @@ export default function InsightsPage() {
                   <div className="w-3 h-3 rounded-full bg-blue-500"></div>
                   <span className="text-sm text-slate-600 font-medium">COST TREND</span>
                 </div>
-                <div className="text-3xl font-bold text-slate-900">{mockCostData.costTrend.percentage}%</div>
+                <div className="text-3xl font-bold text-slate-900">{currentMetrics.costTrend.percentage}%</div>
               </div>
 
               <div>
@@ -90,19 +94,19 @@ export default function InsightsPage() {
                   <div className="w-3 h-3 rounded-full bg-pink-500"></div>
                   <span className="text-sm text-slate-600 font-medium">DAILY ACTIVE USERS TREND</span>
                 </div>
-                <div className="text-3xl font-bold text-slate-900">{mockCostData.dailyActiveUsersTrend.percentage}%</div>
+                <div className="text-3xl font-bold text-slate-900">{currentMetrics.dailyActiveUsersTrend.percentage}%</div>
               </div>
 
               <div>
                 <div className="text-sm text-slate-600 font-medium mb-1">YOUR EXCESS</div>
                 <div className="text-xl font-semibold text-red-600">
-                  {mockCostData.excess.percentage}% or ~{mockCostData.excess.engineers} engineers
+                  {currentMetrics.excess.percentage}% or ~{currentMetrics.excess.engineers} engineers
                 </div>
               </div>
             </div>
 
             {/* Chart */}
-            <CloudCostChart data={mockCostData.chartData} />
+            <CloudCostChart data={currentChartData} />
           </Card>
         </TabsContent>
         

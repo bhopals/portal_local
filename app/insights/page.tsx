@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,27 +17,34 @@ export default function InsightsPage() {
       <div className="max-w-7xl mx-auto">
 
       {/* Cost Overview Section */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Cost Overview</h2>
-          <p className="text-sm text-slate-500 mt-1">
-            Billing data as of {new Date().toISOString().split('T')[0]}
-          </p>
+      <div className="mb-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2.5 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg shadow-blue-500/25">
+              <TrendingUp className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Cost Overview</h2>
+              <p className="text-sm text-slate-500 mt-1">
+                Billing data as of {new Date().toISOString().split('T')[0]}
+              </p>
+            </div>
+          </div>
+
+          {/* Landing Zone Selector */}
+          <Select value={selectedZone} onValueChange={setSelectedZone}>
+            <SelectTrigger className="w-[250px]">
+              <SelectValue placeholder="Select Landing Zone" />
+            </SelectTrigger>
+            <SelectContent>
+              {mockCostData.landingZones.map((zone) => (
+                <SelectItem key={zone.id} value={zone.id}>
+                  {zone.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        
-        {/* Landing Zone Selector */}
-        <Select value={selectedZone} onValueChange={setSelectedZone}>
-          <SelectTrigger className="w-[250px]">
-            <SelectValue placeholder="Select Landing Zone" />
-          </SelectTrigger>
-          <SelectContent>
-            {mockCostData.landingZones.map((zone) => (
-              <SelectItem key={zone.id} value={zone.id}>
-                {zone.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
 
       {/* Tabs */}

@@ -24,15 +24,20 @@ export default function InsightsPage() {
 
   // Filter data based on time period
   const getFilteredData = () => {
-    const dataPoints = {
-      'week': 2,      // Last 1 week
-      'month': 4,     // Last 1 month
-      '3months': 13,  // Last 3 months
-      '6months': 27   // Last 6 months (all data)
-    };
-
-    const points = dataPoints[timePeriod as keyof typeof dataPoints] || 27;
-    return allZoneData.slice(-points);
+    if (timePeriod === 'week') {
+      // Past Week: Show daily data (last 7 points)
+      return allZoneData.slice(-7);
+    } else if (timePeriod === 'month') {
+      // Past Month: Show every 2-3 days (sample every 2nd point from last 20)
+      const monthData = allZoneData.slice(-20);
+      return monthData.filter((_, index) => index % 2 === 0);
+    } else if (timePeriod === '3months') {
+      // Past 3 Months: Show weekly data (last 13 points)
+      return allZoneData.slice(-13);
+    } else {
+      // Past 6 Months: Show all data points
+      return allZoneData;
+    }
   };
 
   const currentChartData = getFilteredData();

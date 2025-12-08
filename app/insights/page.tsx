@@ -95,6 +95,11 @@ export default function InsightsPage() {
 
       {/* Cloud Cost Card */}
       <Card className="p-6 lg:p-8 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
+        {/* Cloud Cost Header */}
+        <div className="mb-4">
+          <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
+        </div>
+
         {/* Tabs */}
         <Tabs defaultValue="total">
           <div className="flex justify-between items-center mb-4">
@@ -135,10 +140,6 @@ export default function InsightsPage() {
           </div>
 
           <TabsContent value="total" className="mt-0">
-            {/* Cloud Cost Header */}
-            <div className="mb-3">
-              <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
-            </div>
 
             {/* Metrics */}
             <div className="flex gap-8 mb-4">
@@ -171,9 +172,6 @@ export default function InsightsPage() {
           </TabsContent>
 
           <TabsContent value="breakdown" className="mt-0">
-            <div className="mb-3">
-              <h3 className="text-2xl font-bold text-slate-900">Resource Breakdown</h3>
-            </div>
             <p className="text-slate-500">Breakdown by resource view - Coming soon</p>
           </TabsContent>
         </Tabs>

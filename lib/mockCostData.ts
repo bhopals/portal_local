@@ -14,7 +14,7 @@ export const mockCostData = {
   ],
   
   costTrend: {
-    percentage: 92,
+    percentage: 196,
     trend: 'up' // or 'down'
   },
   

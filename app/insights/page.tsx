@@ -99,11 +99,11 @@ export default function InsightsPage() {
           <TabsTrigger value="total">TOTAL COST</TabsTrigger>
           <TabsTrigger value="breakdown">BREAKDOWN BY RESOURCE</TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="total" className="mt-6">
-          <Card className="p-8 lg:p-10 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
+
+        <TabsContent value="total" className="mt-3">
+          <Card className="p-6 lg:p-8 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
             {/* Chart Header */}
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-3">
               <h3 className="text-2xl font-bold text-slate-900">Cloud Cost</h3>
               
               {/* Time Period Filter */}
@@ -168,8 +168,8 @@ export default function InsightsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="breakdown">
-          <Card className="p-8 lg:p-10 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
+        <TabsContent value="breakdown" className="mt-3">
+          <Card className="p-6 lg:p-8 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60">
             <p className="text-slate-500">Breakdown by resource view - Coming soon</p>
           </Card>
         </TabsContent>

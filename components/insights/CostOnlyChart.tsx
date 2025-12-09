@@ -49,7 +49,7 @@ export function CostOnlyChart({ data }: CostOnlyChartProps) {
 
         {/* Y-axis for Cost */}
         <YAxis
-          domain={['dataMin', 'auto']}
+          domain={[0, 'auto']}
           tickFormatter={(value) => `$${(value / 1000).toFixed(value >= 1000 ? 1 : 0)}k`}
           stroke="#9ca3af"
           fontSize={12}

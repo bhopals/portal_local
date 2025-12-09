@@ -142,26 +142,26 @@ export default function InsightsPage() {
           <TabsContent value="total" className="mt-0">
 
             {/* Metrics */}
-            <div className="flex gap-8 mb-4">
+            <div className="flex gap-6 mb-3">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                  <span className="text-sm text-slate-600 font-medium">COST TREND</span>
+                  <span className="text-xs text-slate-600 font-medium">COST TREND</span>
                 </div>
-                <div className="text-3xl font-bold text-slate-900">{currentMetrics.costTrend.percentage}%</div>
+                <div className="text-2xl font-bold text-slate-900">{currentMetrics.costTrend.percentage}%</div>
               </div>
 
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-3 h-3 rounded-full bg-pink-500"></div>
-                  <span className="text-sm text-slate-600 font-medium">DAILY ACTIVE USERS TREND</span>
+                  <span className="text-xs text-slate-600 font-medium">DAILY ACTIVE USERS TREND</span>
                 </div>
-                <div className="text-3xl font-bold text-slate-900">{currentMetrics.dailyActiveUsersTrend.percentage}%</div>
+                <div className="text-2xl font-bold text-slate-900">{currentMetrics.dailyActiveUsersTrend.percentage}%</div>
               </div>
 
               <div>
-                <div className="text-sm text-slate-600 font-medium mb-1">YOUR EXCESS</div>
-                <div className="text-xl font-semibold text-red-600">
+                <div className="text-xs text-slate-600 font-medium mb-1">YOUR EXCESS</div>
+                <div className="text-lg font-semibold text-red-600">
                   {currentMetrics.excess.percentage}% or ~{currentMetrics.excess.engineers} engineers
                 </div>
               </div>

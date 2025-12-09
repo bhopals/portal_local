@@ -40,8 +40,8 @@ export function CloudCostChart({ data }: CloudCostChartProps) {
       >
         <defs>
           <linearGradient id="colorCost" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
-            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05}/>
+            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.6}/>
+            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.15}/>
           </linearGradient>
         </defs>
 

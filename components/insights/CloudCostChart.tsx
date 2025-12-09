@@ -12,11 +12,30 @@ interface CloudCostChartProps {
   data: ChartData[];
 }
 
+// Calculate linear trend line
+const calculateTrendLine = (data: ChartData[]) => {
+  const n = data.length;
+  const sumX = data.reduce((sum, _, i) => sum + i, 0);
+  const sumY = data.reduce((sum, d) => sum + d.cost, 0);
+  const sumXY = data.reduce((sum, d, i) => sum + i * d.cost, 0);
+  const sumX2 = data.reduce((sum, _, i) => sum + i * i, 0);
+
+  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+  const intercept = (sumY - slope * sumX) / n;
+
+  return data.map((d, i) => ({
+    ...d,
+    trend: slope * i + intercept
+  }));
+};
+
 export function CloudCostChart({ data }: CloudCostChartProps) {
+  const dataWithTrend = calculateTrendLine(data);
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <AreaChart
-        data={data}
+        data={dataWithTrend}
         margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
       >
         <defs>
@@ -59,7 +78,8 @@ export function CloudCostChart({ data }: CloudCostChartProps) {
 
         <Tooltip
           formatter={(value: number, name: string) => {
-            if (name === 'cost') return [`$${value.toLocaleString()}`, 'Cost Trend'];
+            if (name === 'cost') return [`$${value.toLocaleString()}`, 'Actual Cost'];
+            if (name === 'trend') return [`$${value.toLocaleString()}`, 'Cost Trend'];
             return [value.toLocaleString(), 'Daily Active Users'];
           }}
           contentStyle={{
@@ -77,14 +97,24 @@ export function CloudCostChart({ data }: CloudCostChartProps) {
           }}
         />
 
-        {/* Cost Area Chart (Blue) */}
+        {/* Cost Area Chart (Blue fill only, no stroke) */}
         <Area
           yAxisId="left"
           type="monotone"
           dataKey="cost"
-          stroke="#3b82f6"
-          strokeWidth={2.5}
+          stroke="none"
           fill="url(#colorCost)"
+          animationDuration={800}
+        />
+
+        {/* Blue Trend Line (Straight line) */}
+        <Line
+          yAxisId="left"
+          type="monotone"
+          dataKey="trend"
+          stroke="#3b82f6"
+          strokeWidth={2}
+          dot={false}
           animationDuration={800}
         />
 

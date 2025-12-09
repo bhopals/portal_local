@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CloudCostChart } from "@/components/insights/CloudCostChart";
+import { ResourceBreakdown } from "@/components/insights/ResourceBreakdown";
 import { mockCostData } from "@/lib/mockCostData";
 
 export default function InsightsPage() {
@@ -21,6 +22,7 @@ export default function InsightsPage() {
   // Get zone-specific data
   const currentMetrics = mockCostData.zoneMetrics[selectedZone as keyof typeof mockCostData.zoneMetrics];
   const allZoneData = mockCostData.zoneChartData[selectedZone as keyof typeof mockCostData.zoneChartData];
+  const resourceData = mockCostData.resourceBreakdown[selectedZone as keyof typeof mockCostData.resourceBreakdown];
 
   // Filter data based on time period
   const getFilteredData = () => {
@@ -172,7 +174,7 @@ export default function InsightsPage() {
           </TabsContent>
 
           <TabsContent value="breakdown" className="mt-0">
-            <p className="text-slate-500">Breakdown by resource view - Coming soon</p>
+            <ResourceBreakdown data={resourceData} />
           </TabsContent>
         </Tabs>
       </Card>

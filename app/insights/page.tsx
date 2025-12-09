@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CloudCostChart } from "@/components/insights/CloudCostChart";
-import { ResourceBreakdown } from "@/components/insights/ResourceBreakdown";
+import { CostOnlyChart } from "@/components/insights/CostOnlyChart";
 import { mockCostData } from "@/lib/mockCostData";
 
 export default function InsightsPage() {
@@ -22,7 +22,6 @@ export default function InsightsPage() {
   // Get zone-specific data
   const currentMetrics = mockCostData.zoneMetrics[selectedZone as keyof typeof mockCostData.zoneMetrics];
   const allZoneData = mockCostData.zoneChartData[selectedZone as keyof typeof mockCostData.zoneChartData];
-  const resourceData = mockCostData.resourceBreakdown[selectedZone as keyof typeof mockCostData.resourceBreakdown];
 
   // Filter data based on time period
   const getFilteredData = () => {
@@ -142,8 +141,21 @@ export default function InsightsPage() {
           </div>
 
           <TabsContent value="total" className="mt-0">
+            {/* Cost Trend Only */}
+            <div className="mb-3">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                <span className="text-xs text-slate-600 font-medium">COST TREND</span>
+              </div>
+              <div className="text-2xl font-bold text-slate-900">{currentMetrics.costTrend.percentage}%</div>
+            </div>
 
-            {/* Metrics */}
+            {/* Cost Only Chart */}
+            <CostOnlyChart data={currentChartData} />
+          </TabsContent>
+
+          <TabsContent value="breakdown" className="mt-0">
+            {/* All Metrics */}
             <div className="flex gap-6 mb-3">
               <div>
                 <div className="flex items-center gap-2 mb-1">
@@ -169,12 +181,8 @@ export default function InsightsPage() {
               </div>
             </div>
 
-            {/* Chart */}
+            {/* Dual Chart with Cost and Users */}
             <CloudCostChart data={currentChartData} />
-          </TabsContent>
-
-          <TabsContent value="breakdown" className="mt-0">
-            <ResourceBreakdown data={resourceData} />
           </TabsContent>
         </Tabs>
       </Card>

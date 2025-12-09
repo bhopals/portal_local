@@ -28,9 +28,9 @@ const generateRealisticData = (
     currentCost += costPerDay + costVolatility;
     currentUsers += usersPerDay + usersVolatility;
 
-    // Ensure we don't go below zero
-    currentCost = Math.max(currentCost, 0);
-    currentUsers = Math.max(currentUsers, 0);
+    // Ensure we don't go below 80% of start values
+    currentCost = Math.max(currentCost, startCost * 0.8);
+    currentUsers = Math.max(currentUsers, startUsers * 0.8);
 
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const dateStr = `${months[date.getMonth()]} ${date.getDate()}`;

@@ -18,9 +18,12 @@ const generateRealisticData = (
     const date = new Date(startDate);
     date.setDate(date.getDate() + i);
 
-    // Random volatility: -20% to +40% of daily growth
-    const costVolatility = costPerDay * (Math.random() * 0.6 - 0.2);
-    const usersVolatility = usersPerDay * (Math.random() * 0.6 - 0.2);
+    // DRAMATIC random volatility: ±3-8% of current value
+    const costVolatilityPercent = (Math.random() * 0.11 - 0.03); // -3% to +8%
+    const usersVolatilityPercent = (Math.random() * 0.11 - 0.03); // -3% to +8%
+
+    const costVolatility = currentCost * costVolatilityPercent;
+    const usersVolatility = currentUsers * usersVolatilityPercent;
 
     currentCost += costPerDay + costVolatility;
     currentUsers += usersPerDay + usersVolatility;

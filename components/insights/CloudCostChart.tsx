@@ -50,7 +50,7 @@ export function CloudCostChart({ data }: CloudCostChartProps) {
         {/* Left Y-axis for Cost */}
         <YAxis
           yAxisId="left"
-          domain={[0, 'auto']}
+          domain={['dataMin', 'dataMax']}
           tickFormatter={(value) => `$${(value / 1000).toFixed(value >= 1000 ? 1 : 0)}k`}
           stroke="#9ca3af"
           fontSize={12}
@@ -62,7 +62,7 @@ export function CloudCostChart({ data }: CloudCostChartProps) {
         <YAxis
           yAxisId="right"
           orientation="right"
-          domain={[0, 'auto']}
+          domain={['dataMin', 'dataMax']}
           tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
           stroke="#9ca3af"
           fontSize={12}

@@ -121,32 +121,32 @@ export const mockCostData = {
     all: generateRealisticData(
       new Date(2024, 5, 11), // Jun 11, 2024
       179, // days
-      6500, // start cost
-      25657, // end cost
+      300000, // start cost
+      650000, // end cost
       95000, // start users
       329800  // end users
     ),
     'app1-dev': generateRealisticData(
       new Date(2024, 5, 11), // Jun 11, 2024
       179, // days
-      1200, // start cost
-      5020, // end cost
+      60000, // start cost
+      120000, // end cost
       15000, // start users
       33200  // end users
     ),
     'app2-prod': generateRealisticData(
       new Date(2024, 5, 11), // Jun 11, 2024
       179, // days
-      3800, // start cost
-      18250, // end cost
+      180000, // start cost
+      420000, // end cost
       55000, // start users
       182500  // end users
     ),
     'app3-uat': generateRealisticData(
       new Date(2024, 5, 11), // Jun 11, 2024
       179, // days
-      1500, // start cost
-      2520, // end cost
+      60000, // start cost
+      110000, // end cost
       25000, // start users
       89000  // end users
     )

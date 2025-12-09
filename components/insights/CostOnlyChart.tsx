@@ -1,6 +1,6 @@
 "use client";
 
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 interface ChartData {
   date: string;
@@ -12,11 +12,30 @@ interface CostOnlyChartProps {
   data: ChartData[];
 }
 
+// Calculate linear trend line
+const calculateTrendLine = (data: ChartData[]) => {
+  const n = data.length;
+  const sumX = data.reduce((sum, _, i) => sum + i, 0);
+  const sumY = data.reduce((sum, d) => sum + d.cost, 0);
+  const sumXY = data.reduce((sum, d, i) => sum + i * d.cost, 0);
+  const sumX2 = data.reduce((sum, _, i) => sum + i * i, 0);
+
+  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+  const intercept = (sumY - slope * sumX) / n;
+
+  return data.map((d, i) => ({
+    ...d,
+    trend: slope * i + intercept
+  }));
+};
+
 export function CostOnlyChart({ data }: CostOnlyChartProps) {
+  const dataWithTrend = calculateTrendLine(data);
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <AreaChart
-        data={data}
+        data={dataWithTrend}
         margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
       >
         <defs>
@@ -46,7 +65,11 @@ export function CostOnlyChart({ data }: CostOnlyChartProps) {
         />
 
         <Tooltip
-          formatter={(value: number) => [`$${value.toLocaleString()}`, 'Cost']}
+          formatter={(value: number, name: string) => {
+            if (name === 'cost') return [`$${value.toLocaleString()}`, 'Actual Cost'];
+            if (name === 'trend') return [`$${value.toLocaleString()}`, 'Cost Trend'];
+            return [`$${value.toLocaleString()}`, 'Cost'];
+          }}
           contentStyle={{
             backgroundColor: 'white',
             border: '1px solid #e5e7eb',
@@ -62,13 +85,22 @@ export function CostOnlyChart({ data }: CostOnlyChartProps) {
           }}
         />
 
-        {/* Cost Area Chart (Blue) */}
+        {/* Cost Area Chart (Blue fill only, no stroke) */}
         <Area
           type="monotone"
           dataKey="cost"
-          stroke="#3b82f6"
-          strokeWidth={2.5}
+          stroke="none"
           fill="url(#colorCostOnly)"
+          animationDuration={800}
+        />
+
+        {/* Blue Trend Line (Straight line) */}
+        <Line
+          type="monotone"
+          dataKey="trend"
+          stroke="#3b82f6"
+          strokeWidth={2}
+          dot={false}
           animationDuration={800}
         />
       </AreaChart>

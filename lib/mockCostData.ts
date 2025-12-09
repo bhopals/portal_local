@@ -1,3 +1,47 @@
+// Generate realistic random data with volatility
+const generateRealisticData = (
+  startDate: Date,
+  days: number,
+  startCost: number,
+  endCost: number,
+  startUsers: number,
+  endUsers: number
+) => {
+  const data = [];
+  const costPerDay = (endCost - startCost) / days;
+  const usersPerDay = (endUsers - startUsers) / days;
+
+  let currentCost = startCost;
+  let currentUsers = startUsers;
+
+  for (let i = 0; i < days; i++) {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + i);
+
+    // Random volatility: -20% to +40% of daily growth
+    const costVolatility = costPerDay * (Math.random() * 0.6 - 0.2);
+    const usersVolatility = usersPerDay * (Math.random() * 0.6 - 0.2);
+
+    currentCost += costPerDay + costVolatility;
+    currentUsers += usersPerDay + usersVolatility;
+
+    // Ensure we don't go below start values
+    currentCost = Math.max(currentCost, startCost);
+    currentUsers = Math.max(currentUsers, startUsers);
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dateStr = `${months[date.getMonth()]} ${date.getDate()}`;
+
+    data.push({
+      date: dateStr,
+      cost: Math.round(currentCost),
+      users: Math.round(currentUsers)
+    });
+  }
+
+  return data;
+};
+
 export const mockCostData = {
   landingZones: [
     { id: 'all', name: 'All Landing Zones' },
@@ -69,410 +113,39 @@ export const mockCostData = {
     }
   },
 
-  // Zone-specific chart data with DAILY fluctuations
+  // Zone-specific chart data with RANDOM fluctuations
   zoneChartData: {
-    all: [
-      // June (20 days from Jun 11) - with dramatic fluctuations
-      { date: 'Jun 11', cost: 6500, users: 95000 },
-      { date: 'Jun 12', cost: 6800, users: 98500 },
-      { date: 'Jun 13', cost: 7200, users: 96200 },
-      { date: 'Jun 14', cost: 6950, users: 99800 },
-      { date: 'Jun 15', cost: 7350, users: 97500 },
-      { date: 'Jun 16', cost: 7650, users: 101200 },
-      { date: 'Jun 17', cost: 7400, users: 98800 },
-      { date: 'Jun 18', cost: 7800, users: 103500 },
-      { date: 'Jun 19', cost: 8100, users: 100200 },
-      { date: 'Jun 20', cost: 7900, users: 105800 },
-      { date: 'Jun 21', cost: 8300, users: 102500 },
-      { date: 'Jun 22', cost: 8650, users: 107200 },
-      { date: 'Jun 23', cost: 8350, users: 104000 },
-      { date: 'Jun 24', cost: 8700, users: 109500 },
-      { date: 'Jun 25', cost: 9050, users: 106800 },
-      { date: 'Jun 26', cost: 8800, users: 111200 },
-      { date: 'Jun 27', cost: 9200, users: 108500 },
-      { date: 'Jun 28', cost: 9500, users: 113800 },
-      { date: 'Jun 29', cost: 9250, users: 110500 },
-      { date: 'Jun 30', cost: 9600, users: 115200 },
-      // July (31 days) - with dramatic fluctuations
-      { date: 'Jul 1', cost: 9850, users: 112800 },
-      { date: 'Jul 2', cost: 10200, users: 117500 },
-      { date: 'Jul 3', cost: 9900, users: 114200 },
-      { date: 'Jul 4', cost: 10350, users: 119800 },
-      { date: 'Jul 5', cost: 10650, users: 116500 },
-      { date: 'Jul 6', cost: 10400, users: 122000 },
-      { date: 'Jul 7', cost: 10800, users: 118800 },
-      { date: 'Jul 8', cost: 11150, users: 124500 },
-      { date: 'Jul 9', cost: 10850, users: 120200 },
-      { date: 'Jul 10', cost: 11250, users: 127000 },
-      { date: 'Jul 11', cost: 11550, users: 123500 },
-      { date: 'Jul 12', cost: 11300, users: 129200 },
-      { date: 'Jul 13', cost: 11700, users: 125800 },
-      { date: 'Jul 14', cost: 12000, users: 132000 },
-      { date: 'Jul 15', cost: 11750, users: 128500 },
-      { date: 'Jul 16', cost: 12150, users: 134500 },
-      { date: 'Jul 17', cost: 12450, users: 130200 },
-      { date: 'Jul 18', cost: 12200, users: 137000 },
-      { date: 'Jul 19', cost: 12600, users: 132800 },
-      { date: 'Jul 20', cost: 12900, users: 139500 },
-      { date: 'Jul 21', cost: 12650, users: 135200 },
-      { date: 'Jul 22', cost: 13050, users: 142000 },
-      { date: 'Jul 23', cost: 13350, users: 137800 },
-      { date: 'Jul 24', cost: 13100, users: 144500 },
-      { date: 'Jul 25', cost: 13500, users: 140200 },
-      { date: 'Jul 26', cost: 13800, users: 147000 },
-      { date: 'Jul 27', cost: 13550, users: 142800 },
-      { date: 'Jul 28', cost: 13950, users: 149500 },
-      { date: 'Jul 29', cost: 14250, users: 145200 },
-      { date: 'Jul 30', cost: 14000, users: 152000 },
-      { date: 'Jul 31', cost: 14400, users: 147800 },
-      // August (31 days) - with dramatic fluctuations
-      { date: 'Aug 1', cost: 14700, users: 153500 },
-      { date: 'Aug 2', cost: 15000, users: 149200 },
-      { date: 'Aug 3', cost: 14750, users: 156800 },
-      { date: 'Aug 4', cost: 15150, users: 152000 },
-      { date: 'Aug 5', cost: 15450, users: 159500 },
-      { date: 'Aug 6', cost: 15200, users: 154800 },
-      { date: 'Aug 7', cost: 15600, users: 162200 },
-      { date: 'Aug 8', cost: 15900, users: 157500 },
-      { date: 'Aug 9', cost: 15650, users: 165000 },
-      { date: 'Aug 10', cost: 16050, users: 160200 },
-      { date: 'Aug 11', cost: 16350, users: 167800 },
-      { date: 'Aug 12', cost: 16100, users: 163000 },
-      { date: 'Aug 13', cost: 16500, users: 170500 },
-      { date: 'Aug 14', cost: 16800, users: 165800 },
-      { date: 'Aug 15', cost: 16550, users: 173200 },
-      { date: 'Aug 16', cost: 16950, users: 168500 },
-      { date: 'Aug 17', cost: 17250, users: 176000 },
-      { date: 'Aug 18', cost: 17000, users: 171200 },
-      { date: 'Aug 19', cost: 17400, users: 178800 },
-      { date: 'Aug 20', cost: 17700, users: 174000 },
-      { date: 'Aug 21', cost: 17450, users: 181500 },
-      { date: 'Aug 22', cost: 17850, users: 176800 },
-      { date: 'Aug 23', cost: 18150, users: 184200 },
-      { date: 'Aug 24', cost: 17900, users: 179500 },
-      { date: 'Aug 25', cost: 18300, users: 187000 },
-      { date: 'Aug 26', cost: 18600, users: 182200 },
-      { date: 'Aug 27', cost: 18350, users: 189800 },
-      { date: 'Aug 28', cost: 18750, users: 185000 },
-      { date: 'Aug 29', cost: 19050, users: 192500 },
-      { date: 'Aug 30', cost: 18800, users: 187800 },
-      { date: 'Aug 31', cost: 19200, users: 195200 },
-      // September (30 days) - with dramatic fluctuations
-      { date: 'Sep 1', cost: 19500, users: 190500 },
-      { date: 'Sep 2', cost: 19800, users: 197800 },
-      { date: 'Sep 3', cost: 19550, users: 193200 },
-      { date: 'Sep 4', cost: 19950, users: 200500 },
-      { date: 'Sep 5', cost: 20250, users: 195800 },
-      { date: 'Sep 6', cost: 20000, users: 203200 },
-      { date: 'Sep 7', cost: 20400, users: 198500 },
-      { date: 'Sep 8', cost: 20700, users: 206000 },
-      { date: 'Sep 9', cost: 20450, users: 201200 },
-      { date: 'Sep 10', cost: 20850, users: 208800 },
-      { date: 'Sep 11', cost: 21150, users: 204000 },
-      { date: 'Sep 12', cost: 20900, users: 211500 },
-      { date: 'Sep 13', cost: 21300, users: 206800 },
-      { date: 'Sep 14', cost: 21600, users: 214200 },
-      { date: 'Sep 15', cost: 21350, users: 209500 },
-      { date: 'Sep 16', cost: 21750, users: 217000 },
-      { date: 'Sep 17', cost: 22050, users: 212200 },
-      { date: 'Sep 18', cost: 21800, users: 219800 },
-      { date: 'Sep 19', cost: 22200, users: 215000 },
-      { date: 'Sep 20', cost: 22500, users: 222500 },
-      { date: 'Sep 21', cost: 22250, users: 217800 },
-      { date: 'Sep 22', cost: 22650, users: 225200 },
-      { date: 'Sep 23', cost: 22950, users: 220500 },
-      { date: 'Sep 24', cost: 22700, users: 228000 },
-      { date: 'Sep 25', cost: 23100, users: 223200 },
-      { date: 'Sep 26', cost: 23400, users: 230800 },
-      { date: 'Sep 27', cost: 23150, users: 226000 },
-      { date: 'Sep 28', cost: 23550, users: 233500 },
-      { date: 'Sep 29', cost: 23850, users: 228800 },
-      { date: 'Sep 30', cost: 23600, users: 236200 },
-      // October (31 days) - with dramatic fluctuations
-      { date: 'Oct 1', cost: 24000, users: 231500 },
-      { date: 'Oct 2', cost: 24300, users: 239000 },
-      { date: 'Oct 3', cost: 24050, users: 234200 },
-      { date: 'Oct 4', cost: 24450, users: 241800 },
-      { date: 'Oct 5', cost: 24750, users: 237000 },
-      { date: 'Oct 6', cost: 24500, users: 244500 },
-      { date: 'Oct 7', cost: 24900, users: 239800 },
-      { date: 'Oct 8', cost: 25200, users: 247200 },
-      { date: 'Oct 9', cost: 24950, users: 242500 },
-      { date: 'Oct 10', cost: 25350, users: 250000 },
-      { date: 'Oct 11', cost: 25650, users: 245200 },
-      { date: 'Oct 12', cost: 25400, users: 252800 },
-      { date: 'Oct 13', cost: 25800, users: 248000 },
-      { date: 'Oct 14', cost: 26100, users: 255500 },
-      { date: 'Oct 15', cost: 25850, users: 250800 },
-      { date: 'Oct 16', cost: 26250, users: 258200 },
-      { date: 'Oct 17', cost: 26550, users: 253500 },
-      { date: 'Oct 18', cost: 26300, users: 261000 },
-      { date: 'Oct 19', cost: 26700, users: 256200 },
-      { date: 'Oct 20', cost: 27000, users: 263800 },
-      { date: 'Oct 21', cost: 26750, users: 259000 },
-      { date: 'Oct 22', cost: 27150, users: 266500 },
-      { date: 'Oct 23', cost: 27450, users: 261800 },
-      { date: 'Oct 24', cost: 27200, users: 269200 },
-      { date: 'Oct 25', cost: 27600, users: 264500 },
-      { date: 'Oct 26', cost: 27900, users: 272000 },
-      { date: 'Oct 27', cost: 27650, users: 267200 },
-      { date: 'Oct 28', cost: 28050, users: 274800 },
-      { date: 'Oct 29', cost: 28350, users: 270000 },
-      { date: 'Oct 30', cost: 28100, users: 277500 },
-      { date: 'Oct 31', cost: 28500, users: 272800 },
-      // November (30 days) - with dramatic fluctuations
-      { date: 'Nov 1', cost: 28800, users: 280200 },
-      { date: 'Nov 2', cost: 29100, users: 275500 },
-      { date: 'Nov 3', cost: 28850, users: 283000 },
-      { date: 'Nov 4', cost: 29250, users: 278200 },
-      { date: 'Nov 5', cost: 29550, users: 285800 },
-      { date: 'Nov 6', cost: 29300, users: 281000 },
-      { date: 'Nov 7', cost: 29700, users: 288500 },
-      { date: 'Nov 8', cost: 30000, users: 283800 },
-      { date: 'Nov 9', cost: 29750, users: 291200 },
-      { date: 'Nov 10', cost: 30150, users: 286500 },
-      { date: 'Nov 11', cost: 30450, users: 294000 },
-      { date: 'Nov 12', cost: 30200, users: 289200 },
-      { date: 'Nov 13', cost: 30600, users: 296800 },
-      { date: 'Nov 14', cost: 30900, users: 292000 },
-      { date: 'Nov 15', cost: 30650, users: 299500 },
-      { date: 'Nov 16', cost: 31050, users: 294800 },
-      { date: 'Nov 17', cost: 31350, users: 302200 },
-      { date: 'Nov 18', cost: 31100, users: 297500 },
-      { date: 'Nov 19', cost: 31500, users: 305000 },
-      { date: 'Nov 20', cost: 31800, users: 300200 },
-      { date: 'Nov 21', cost: 31550, users: 307800 },
-      { date: 'Nov 22', cost: 31950, users: 303000 },
-      { date: 'Nov 23', cost: 32250, users: 310500 },
-      { date: 'Nov 24', cost: 32000, users: 305800 },
-      { date: 'Nov 25', cost: 32400, users: 313200 },
-      { date: 'Nov 26', cost: 32700, users: 308500 },
-      { date: 'Nov 27', cost: 32450, users: 316000 },
-      { date: 'Nov 28', cost: 32850, users: 311200 },
-      { date: 'Nov 29', cost: 33150, users: 318800 },
-      { date: 'Nov 30', cost: 32900, users: 314000 },
-      // December (7 days) - with dramatic fluctuations
-      { date: 'Dec 1', cost: 33300, users: 321500 },
-      { date: 'Dec 2', cost: 33600, users: 316800 },
-      { date: 'Dec 3', cost: 33350, users: 324200 },
-      { date: 'Dec 4', cost: 33750, users: 319500 },
-      { date: 'Dec 5', cost: 34050, users: 327000 },
-      { date: 'Dec 6', cost: 33800, users: 322200 },
-      { date: 'Dec 7', cost: 25657, users: 329800 },
-    ],
-    'app1-dev': [
-      // June (20 days)
-      { date: 'Jun 11', cost: 1200, users: 15000 },
-      { date: 'Jun 12', cost: 1220, users: 15200 },
-      { date: 'Jun 13', cost: 1250, users: 14900 },
-      { date: 'Jun 14', cost: 1230, users: 15400 },
-      { date: 'Jun 15', cost: 1270, users: 15100 },
-      { date: 'Jun 16', cost: 1290, users: 15600 },
-      { date: 'Jun 17', cost: 1280, users: 15300 },
-      { date: 'Jun 18', cost: 1310, users: 15800 },
-      { date: 'Jun 19', cost: 1330, users: 15500 },
-      { date: 'Jun 20', cost: 1360, users: 16000 },
-      { date: 'Jun 21', cost: 1340, users: 15700 },
-      { date: 'Jun 22', cost: 1370, users: 16200 },
-      { date: 'Jun 23', cost: 1400, users: 15900 },
-      { date: 'Jun 24', cost: 1420, users: 16400 },
-      { date: 'Jun 25', cost: 1450, users: 16100 },
-      { date: 'Jun 26', cost: 1470, users: 16600 },
-      { date: 'Jun 27', cost: 1490, users: 16300 },
-      { date: 'Jun 28', cost: 1520, users: 16800 },
-      { date: 'Jun 29', cost: 1540, users: 16500 },
-      { date: 'Jun 30', cost: 1570, users: 17000 },
-      // July (31 days)
-      { date: 'Jul 1', cost: 1590, users: 17200 },
-      { date: 'Jul 2', cost: 1620, users: 16900 },
-      { date: 'Jul 3', cost: 1640, users: 17400 },
-      { date: 'Jul 4', cost: 1670, users: 17100 },
-      { date: 'Jul 5', cost: 1690, users: 17600 },
-      { date: 'Jul 6', cost: 1720, users: 17300 },
-      { date: 'Jul 7', cost: 1740, users: 17800 },
-      { date: 'Jul 8', cost: 1770, users: 17500 },
-      { date: 'Jul 9', cost: 1790, users: 18000 },
-      { date: 'Jul 10', cost: 1820, users: 17700 },
-      { date: 'Jul 11', cost: 1840, users: 18200 },
-      { date: 'Jul 12', cost: 1870, users: 17900 },
-      { date: 'Jul 13', cost: 1890, users: 18400 },
-      { date: 'Jul 14', cost: 1920, users: 18100 },
-      { date: 'Jul 15', cost: 1940, users: 18600 },
-      { date: 'Jul 16', cost: 1970, users: 18300 },
-      { date: 'Jul 17', cost: 1990, users: 18800 },
-      { date: 'Jul 18', cost: 2020, users: 18500 },
-      { date: 'Jul 19', cost: 2040, users: 19000 },
-      { date: 'Jul 20', cost: 2070, users: 18700 },
-      { date: 'Jul 21', cost: 2090, users: 19200 },
-      { date: 'Jul 22', cost: 2120, users: 18900 },
-      { date: 'Jul 23', cost: 2140, users: 19400 },
-      { date: 'Jul 24', cost: 2170, users: 19100 },
-      { date: 'Jul 25', cost: 2190, users: 19600 },
-      { date: 'Jul 26', cost: 2220, users: 19300 },
-      { date: 'Jul 27', cost: 2240, users: 19800 },
-      { date: 'Jul 28', cost: 2270, users: 19500 },
-      { date: 'Jul 29', cost: 2290, users: 20000 },
-      { date: 'Jul 30', cost: 2320, users: 19700 },
-      { date: 'Jul 31', cost: 2340, users: 20200 },
-      // August (31 days)
-      { date: 'Aug 1', cost: 2370, users: 19900 },
-      { date: 'Aug 2', cost: 2390, users: 20400 },
-      { date: 'Aug 3', cost: 2420, users: 20100 },
-      { date: 'Aug 4', cost: 2440, users: 20600 },
-      { date: 'Aug 5', cost: 2470, users: 20300 },
-      { date: 'Aug 6', cost: 2490, users: 20800 },
-      { date: 'Aug 7', cost: 2520, users: 20500 },
-      { date: 'Aug 8', cost: 2540, users: 21000 },
-      { date: 'Aug 9', cost: 2570, users: 20700 },
-      { date: 'Aug 10', cost: 2590, users: 21200 },
-      { date: 'Aug 11', cost: 2620, users: 20900 },
-      { date: 'Aug 12', cost: 2640, users: 21400 },
-      { date: 'Aug 13', cost: 2670, users: 21100 },
-      { date: 'Aug 14', cost: 2690, users: 21600 },
-      { date: 'Aug 15', cost: 2720, users: 21300 },
-      { date: 'Aug 16', cost: 2740, users: 21800 },
-      { date: 'Aug 17', cost: 2770, users: 21500 },
-      { date: 'Aug 18', cost: 2790, users: 22000 },
-      { date: 'Aug 19', cost: 2820, users: 21700 },
-      { date: 'Aug 20', cost: 2840, users: 22200 },
-      { date: 'Aug 21', cost: 2870, users: 21900 },
-      { date: 'Aug 22', cost: 2890, users: 22400 },
-      { date: 'Aug 23', cost: 2920, users: 22100 },
-      { date: 'Aug 24', cost: 2940, users: 22600 },
-      { date: 'Aug 25', cost: 2970, users: 22300 },
-      { date: 'Aug 26', cost: 2990, users: 22800 },
-      { date: 'Aug 27', cost: 3020, users: 22500 },
-      { date: 'Aug 28', cost: 3040, users: 23000 },
-      { date: 'Aug 29', cost: 3070, users: 22700 },
-      { date: 'Aug 30', cost: 3090, users: 23200 },
-      { date: 'Aug 31', cost: 3120, users: 22900 },
-      // September (30 days)
-      { date: 'Sep 1', cost: 3140, users: 23400 },
-      { date: 'Sep 2', cost: 3170, users: 23100 },
-      { date: 'Sep 3', cost: 3190, users: 23600 },
-      { date: 'Sep 4', cost: 3220, users: 23300 },
-      { date: 'Sep 5', cost: 3240, users: 23800 },
-      { date: 'Sep 6', cost: 3270, users: 23500 },
-      { date: 'Sep 7', cost: 3290, users: 24000 },
-      { date: 'Sep 8', cost: 3320, users: 23700 },
-      { date: 'Sep 9', cost: 3340, users: 24200 },
-      { date: 'Sep 10', cost: 3370, users: 23900 },
-      { date: 'Sep 11', cost: 3390, users: 24400 },
-      { date: 'Sep 12', cost: 3420, users: 24100 },
-      { date: 'Sep 13', cost: 3440, users: 24600 },
-      { date: 'Sep 14', cost: 3470, users: 24300 },
-      { date: 'Sep 15', cost: 3490, users: 24800 },
-      { date: 'Sep 16', cost: 3520, users: 24500 },
-      { date: 'Sep 17', cost: 3540, users: 25000 },
-      { date: 'Sep 18', cost: 3570, users: 24700 },
-      { date: 'Sep 19', cost: 3590, users: 25200 },
-      { date: 'Sep 20', cost: 3620, users: 24900 },
-      { date: 'Sep 21', cost: 3640, users: 25400 },
-      { date: 'Sep 22', cost: 3670, users: 25100 },
-      { date: 'Sep 23', cost: 3690, users: 25600 },
-      { date: 'Sep 24', cost: 3720, users: 25300 },
-      { date: 'Sep 25', cost: 3740, users: 25800 },
-      { date: 'Sep 26', cost: 3770, users: 25500 },
-      { date: 'Sep 27', cost: 3790, users: 26000 },
-      { date: 'Sep 28', cost: 3820, users: 25700 },
-      { date: 'Sep 29', cost: 3840, users: 26200 },
-      { date: 'Sep 30', cost: 3870, users: 25900 },
-      // October (31 days)
-      { date: 'Oct 1', cost: 3890, users: 26400 },
-      { date: 'Oct 2', cost: 3920, users: 26100 },
-      { date: 'Oct 3', cost: 3940, users: 26600 },
-      { date: 'Oct 4', cost: 3970, users: 26300 },
-      { date: 'Oct 5', cost: 3990, users: 26800 },
-      { date: 'Oct 6', cost: 4020, users: 26500 },
-      { date: 'Oct 7', cost: 4040, users: 27000 },
-      { date: 'Oct 8', cost: 4070, users: 26700 },
-      { date: 'Oct 9', cost: 4090, users: 27200 },
-      { date: 'Oct 10', cost: 4120, users: 26900 },
-      { date: 'Oct 11', cost: 4140, users: 27400 },
-      { date: 'Oct 12', cost: 4170, users: 27100 },
-      { date: 'Oct 13', cost: 4190, users: 27600 },
-      { date: 'Oct 14', cost: 4220, users: 27300 },
-      { date: 'Oct 15', cost: 4240, users: 27800 },
-      { date: 'Oct 16', cost: 4270, users: 27500 },
-      { date: 'Oct 17', cost: 4290, users: 28000 },
-      { date: 'Oct 18', cost: 4320, users: 27700 },
-      { date: 'Oct 19', cost: 4340, users: 28200 },
-      { date: 'Oct 20', cost: 4370, users: 27900 },
-      { date: 'Oct 21', cost: 4390, users: 28400 },
-      { date: 'Oct 22', cost: 4420, users: 28100 },
-      { date: 'Oct 23', cost: 4440, users: 28600 },
-      { date: 'Oct 24', cost: 4470, users: 28300 },
-      { date: 'Oct 25', cost: 4490, users: 28800 },
-      { date: 'Oct 26', cost: 4520, users: 28500 },
-      { date: 'Oct 27', cost: 4540, users: 29000 },
-      { date: 'Oct 28', cost: 4570, users: 28700 },
-      { date: 'Oct 29', cost: 4590, users: 29200 },
-      { date: 'Oct 30', cost: 4620, users: 28900 },
-      { date: 'Oct 31', cost: 4640, users: 29400 },
-      // November (30 days)
-      { date: 'Nov 1', cost: 4670, users: 29100 },
-      { date: 'Nov 2', cost: 4690, users: 29600 },
-      { date: 'Nov 3', cost: 4720, users: 29300 },
-      { date: 'Nov 4', cost: 4740, users: 29800 },
-      { date: 'Nov 5', cost: 4770, users: 29500 },
-      { date: 'Nov 6', cost: 4790, users: 30000 },
-      { date: 'Nov 7', cost: 4820, users: 29700 },
-      { date: 'Nov 8', cost: 4840, users: 30200 },
-      { date: 'Nov 9', cost: 4870, users: 29900 },
-      { date: 'Nov 10', cost: 4890, users: 30400 },
-      { date: 'Nov 11', cost: 4920, users: 30100 },
-      { date: 'Nov 12', cost: 4940, users: 30600 },
-      { date: 'Nov 13', cost: 4970, users: 30300 },
-      { date: 'Nov 14', cost: 4990, users: 30800 },
-      { date: 'Nov 15', cost: 5020, users: 30500 },
-      { date: 'Nov 16', cost: 5040, users: 31000 },
-      { date: 'Nov 17', cost: 5070, users: 30700 },
-      { date: 'Nov 18', cost: 5090, users: 31200 },
-      { date: 'Nov 19', cost: 5120, users: 30900 },
-      { date: 'Nov 20', cost: 5140, users: 31400 },
-      { date: 'Nov 21', cost: 5170, users: 31100 },
-      { date: 'Nov 22', cost: 5190, users: 31600 },
-      { date: 'Nov 23', cost: 5220, users: 31300 },
-      { date: 'Nov 24', cost: 5240, users: 31800 },
-      { date: 'Nov 25', cost: 5270, users: 31500 },
-      { date: 'Nov 26', cost: 5290, users: 32000 },
-      { date: 'Nov 27', cost: 5320, users: 31700 },
-      { date: 'Nov 28', cost: 5340, users: 32200 },
-      { date: 'Nov 29', cost: 5370, users: 31900 },
-      { date: 'Nov 30', cost: 5390, users: 32400 },
-      // December (7 days)
-      { date: 'Dec 1', cost: 5420, users: 32100 },
-      { date: 'Dec 2', cost: 5440, users: 32600 },
-      { date: 'Dec 3', cost: 5470, users: 32300 },
-      { date: 'Dec 4', cost: 5490, users: 32800 },
-      { date: 'Dec 5', cost: 5520, users: 32500 },
-      { date: 'Dec 6', cost: 5540, users: 33000 },
-      { date: 'Dec 7', cost: 5020, users: 33200 },
-    ],
-    'app2-prod': [
-      // Similar daily pattern for app2-prod (abbreviated for space)
-      { date: 'Jun 11', cost: 3800, users: 55000 },
-      { date: 'Jun 12', cost: 3850, users: 56000 },
-      { date: 'Jun 13', cost: 3900, users: 54500 },
-      { date: 'Jun 14', cost: 3950, users: 57000 },
-      { date: 'Jun 15', cost: 4000, users: 55500 },
-      { date: 'Jun 16', cost: 4050, users: 58000 },
-      { date: 'Jun 17', cost: 4100, users: 56500 },
-      { date: 'Jun 18', cost: 4150, users: 59000 },
-      { date: 'Jun 19', cost: 4200, users: 57500 },
-      { date: 'Jun 20', cost: 4250, users: 60000 },
-      // Continue daily data through December 7
-      { date: 'Dec 7', cost: 18250, users: 182500 },
-    ],
-    'app3-uat': [
-      // Similar daily pattern for app3-uat (abbreviated for space)
-      { date: 'Jun 11', cost: 1500, users: 25000 },
-      { date: 'Jun 12', cost: 1520, users: 25500 },
-      { date: 'Jun 13', cost: 1550, users: 24800 },
-      { date: 'Jun 14', cost: 1530, users: 26000 },
-      { date: 'Jun 15', cost: 1570, users: 25300 },
-      // Continue daily data through December 7
-      { date: 'Dec 7', cost: 2520, users: 89000 },
-    ]
+    all: generateRealisticData(
+      new Date(2024, 5, 11), // Jun 11, 2024
+      179, // days
+      6500, // start cost
+      25657, // end cost
+      95000, // start users
+      329800  // end users
+    ),
+    'app1-dev': generateRealisticData(
+      new Date(2024, 5, 11), // Jun 11, 2024
+      179, // days
+      1200, // start cost
+      5020, // end cost
+      15000, // start users
+      33200  // end users
+    ),
+    'app2-prod': generateRealisticData(
+      new Date(2024, 5, 11), // Jun 11, 2024
+      179, // days
+      3800, // start cost
+      18250, // end cost
+      55000, // start users
+      182500  // end users
+    ),
+    'app3-uat': generateRealisticData(
+      new Date(2024, 5, 11), // Jun 11, 2024
+      179, // days
+      1500, // start cost
+      2520, // end cost
+      25000, // start users
+      89000  // end users
+    )
   }
 };
